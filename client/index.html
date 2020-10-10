@@ -50,7 +50,7 @@
     { frameWidth: 32, frameHeight: 48 });
     // Load the map and the tileset
     this.load.image('tiles', 'assets/platformPack_tilesheet.png');
-    this.load.tilemapTiledJSON('map', 'assets/map_test.json');
+    this.load.tilemapTiledJSON('map', 'assets/map_blind_test.json');
 }
 
 function create ()
@@ -67,7 +67,7 @@ function create ()
   // load the map
   map = this.make.tilemap({ key: 'map' });
   tileset = map.addTilesetImage('tileset_test', 'tiles')
-  platforms = map.createStaticLayer('Platforms', tileset, 0, 200);
+  platforms = map.createStaticLayer('Red', tileset, 0, 200);
   // make it so that every tile in the map can be collided into
   map.setCollisionByExclusion([0, -1]);
 
