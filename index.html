@@ -62,8 +62,8 @@ function create ()
   // platforms.create(400, 568, 'ground').setScale(2).refreshBody();
   // platforms.create(600, 400, 'ground');
   // platforms.create(50, 250, 'ground');
-  // platforms.create(750, 220, 'ground'); 
-  
+  // platforms.create(750, 220, 'ground');
+
   // load the map
   map = this.make.tilemap({ key: 'map' });
   tileset = map.addTilesetImage('tileset_test', 'tiles')
@@ -80,7 +80,7 @@ function create ()
 
   player = this.physics.add.sprite(400, 100, 'dude');
   player.setBounce(0.2);
-  player.setCollideWorldBounds(true);
+  player.setCollideWorldBounds(false);
   this.anims.create({
     key: 'left',
     frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
