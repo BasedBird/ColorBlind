@@ -147,11 +147,23 @@ function update ()
   {
     player.setVelocityY(0);
   }
+  if (isClose()){
+    velX = Math.sign(player.x - enemy.x) * 75;
+    velY = Math.sign(player.y - enemy.y) * 75;
+    enemy.setVelocityX(velX);
+    enemy.setVelocityY(velY);
+  }
+  else{
+    enemy.setVelocityX(0);
+    enemy.setVelocityY(0);
+  }
+}
 
-  velX = Math.sign(player.x - enemy.x) * 50;
-  velY = Math.sign(player.y - enemy.y) * 50;
-  enemy.setVelocityX(velX);
-  enemy.setVelocityY(velY);
+function isClose()
+{
+  xDiff = player.x - enemy.x;
+  yDiff = player.x - enemy.x;
+  return (Math.sqrt(xDiff * xDiff + yDiff * yDiff) <= 500);
 }
 
 function playerDeath(player, other)
