@@ -65,6 +65,9 @@ function create ()
   hazards = this.physics.add.staticGroup();
   hazards.create(450, 500, 'bomb');
 
+  enemy = this.physics.add.sprite(800, 300, 'dude');
+  enemy.setCollideWorldBounds(true);
+
   player = this.physics.add.sprite(400, 100, 'dude');
   player.setBounce(0.2);
   player.setCollideWorldBounds(true);
@@ -89,6 +92,7 @@ function create ()
   });
 
   this.physics.add.collider(player, platforms);
+  this.physics.add.collider(enemy, platforms); 
   this.physics.add.overlap(player, hazards, playerDeath, null, this);
 
   //this isn't the best way to add keys, but it will do for now
@@ -97,6 +101,7 @@ function create ()
   keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
   keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
+  this.cameras.main.startFollow(player);
 }
 
 function update ()
@@ -128,6 +133,11 @@ function update ()
   {
     player.setVelocityY(0);
   }
+
+  velX = Math.sign(player.x - enemy.x) * 50;
+  velY = Math.sign(player.y - enemy.y) * 50;
+  enemy.setVelocityX(velX);
+  enemy.setVelocityY(velY);
 }
 
 function playerDeath(player, hazards)
