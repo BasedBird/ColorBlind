@@ -162,7 +162,7 @@ function update ()
 function isClose()
 {
   xDiff = player.x - enemy.x;
-  yDiff = player.x - enemy.x;
+  yDiff = player.y - enemy.y;
   return (Math.sqrt(xDiff * xDiff + yDiff * yDiff) <= 500);
 }
 
