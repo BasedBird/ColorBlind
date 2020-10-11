@@ -12,6 +12,13 @@
 </head>
 <body>
 
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script>
+    var socket = io();
+
+    socket.emit('happy');
+  </script>
+
   <script type="text/javascript">
   const WIDTH = 1920;
   const HEIGHT = 1080;
@@ -23,7 +30,7 @@
       default: 'arcade',
       arcade: {
         gravity: { y:0 },
-        debug: false
+        debug: true
       }
     },
     scene: {
@@ -47,7 +54,7 @@
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
     this.load.spritesheet('dude',
-    'assets/dude.png',
+    'assets/dude2.png',
     { frameWidth: 32, frameHeight: 48 });
     // Load the map and the tileset
     this.load.image('tiles', 'assets/platformPack_tilesheet.png');
@@ -87,6 +94,7 @@ function create ()
   player = this.physics.add.sprite(400, 100, 'dude');
   player.setBounce(0.2);
   player.setCollideWorldBounds(false);
+
   this.anims.create({
     key: 'left',
     frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -111,6 +119,12 @@ function create ()
     this.physics.add.collider(player, color_layers[i]);
     this.physics.add.collider(enemy, color_layers[i]);
   }
+  this.anims.create({
+    key: 'back',
+    frames: [ { key: 'dude', frame: 9 } ],
+    frameRate: 20
+  });
+
   this.physics.add.overlap(player, hazards, playerDeath, null, this);
   this.physics.add.overlap(player, enemy, playerDeath, null, this);
 
@@ -167,20 +181,32 @@ function update ()
   else if (keyW.isDown)
   {
     player.setVelocityY(-160);
+    player.anims.play('back', true);
   }
   else
   {
     player.setVelocityY(0);
   }
+
   if (isClose()){
     velX = Math.sign(player.x - enemy.x) * 75;
     velY = Math.sign(player.y - enemy.y) * 75;
     enemy.setVelocityX(velX);
     enemy.setVelocityY(velY);
+    if (Math.sign(velX) == -1){
+      enemy.anims.play('left', true);
+    }
+    else{
+      enemy.anims.play('right', true);
+    }
+    if (velY < 0){
+      enemy.anims.play('back', true);
+    }
   }
   else{
     enemy.setVelocityX(0);
     enemy.setVelocityY(0);
+    enemy.anims.play('turn', true);
   }
 }
 

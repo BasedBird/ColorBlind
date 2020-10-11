@@ -13,4 +13,8 @@ console.log('Server started.');
 var io = require('socket.io')(serv,{});
 io.sockets.on('connection',function(socket){
   console.log('socket connection');
+
+  socket.on('happy',function(){
+    console.log('happy');
+  });
 });
