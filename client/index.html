@@ -38,6 +38,7 @@
   var keyA;
   var keyS;
   var keyD;
+  var playerColor = 0;
 
   function preload ()
   {
@@ -50,7 +51,7 @@
     { frameWidth: 32, frameHeight: 48 });
     // Load the map and the tileset
     this.load.image('tiles', 'assets/platformPack_tilesheet.png');
-    this.load.tilemapTiledJSON('map', 'assets/map_test.json');
+    this.load.tilemapTiledJSON('map', 'assets/level1.json');
 }
 
 function create ()
@@ -67,9 +68,15 @@ function create ()
   // load the map
   map = this.make.tilemap({ key: 'map' });
   tileset = map.addTilesetImage('tileset_test', 'tiles')
-  platforms = map.createStaticLayer('Platforms', tileset, 0, 200);
-  // make it so that every tile in the map can be collided into
+  red = map.createStaticLayer('Red', tileset, 0, 0);
   map.setCollisionByExclusion([0, -1]);
+  yellow = map.createStaticLayer('Yellow', tileset, 0, 0);
+  map.setCollisionByExclusion([0, -1]);
+  green =   map.createStaticLayer('Green', tileset, 0, 0);
+  map.setCollisionByExclusion([0, -1]);
+  blue =   map.createStaticLayer('Blue', tileset, 0, 0);
+  map.setCollisionByExclusion([0, -1]);
+  color_layers = [red, yellow, green, blue]
 
   hazards = this.physics.add.staticGroup();
   hazards.create(450, 500, 'bomb');
@@ -106,11 +113,16 @@ function create ()
     repeat: -1
   });
 
+  for (i = 0; i < color_layers.length; i++) {
+    this.physics.add.collider(player, color_layers[i]);
+    this.physics.add.collider(enemy, color_layers[i]);
+  }
   this.anims.create({
     key: 'back',
     frames: [ { key: 'dude', frame: 9 } ],
     frameRate: 20
   });
+
 
   this.physics.add.collider(player, platforms);
   this.physics.add.overlap(player, hazards, playerDeath, null, this);
@@ -125,8 +137,20 @@ function create ()
   keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
   keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
   keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-  this.input.once('pointerdown', function (event) {
-    this.scene.restart();
+
+  // mouse input
+  this.input.on('pointerdown', function (pointer) {
+    if (pointer.leftButtonDown()){
+      if (playerColor < color_layers.length - 1) {
+        playerColor += 1;
+      }
+      else {
+        playerColor = 0;
+      }
+    }
+    else {
+      this.scene.restart();
+    }
   }, this);
 
   this.cameras.main.startFollow(player);
@@ -134,6 +158,11 @@ function create ()
 
 function update ()
 {
+  for (i = 0; i < color_layers.length; i++) {
+    color_layers[i].setVisible(false)
+  }
+  color_layers[playerColor].setVisible(true)
+
   if (keyA.isDown)
   {
     player.setVelocityX(-160);
@@ -194,7 +223,7 @@ function update ()
 function isClose(enemy)
 {
   xDiff = player.x - enemy.x;
-  yDiff = player.y - enemy.y;
+  yDiff = player.x - enemy.x;
   return (Math.sqrt(xDiff * xDiff + yDiff * yDiff) <= 500);
 }
 
