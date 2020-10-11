@@ -9,3 +9,4 @@ ColorBlind is similar to many 2D top-down style games: there's mazes to navigate
 # Future Plans
 
 As stated previously ColorBlind was meant to be a multiplayer game; players would be stripped of the ability to toggle through seeing different colors, and instead each player would only be able to see walls of a single color. It'd be up to each player to communicate what they're seeing so that everyone else doesn't get lost. And this color blind system wouldn't just apply to walls; our original idea was to make every enemy, trap, and powerup only visible to one player.
+
