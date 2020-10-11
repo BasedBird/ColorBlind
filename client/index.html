@@ -198,8 +198,8 @@ function update ()
   for (i = 0; i < enemyList.length; i++){
     enemy = enemyList[i];
     if (isClose(enemy)){
-      velX = Math.sign(player.x - enemy.x) * 50;
-      velY = Math.sign(player.y - enemy.y) * 50;
+      velX = Math.sign(player.x - enemy.x) * 40;
+      velY = Math.sign(player.y - enemy.y) * 40;
       enemy.setVelocityX(velX);
       enemy.setVelocityY(velY);
       if (Math.sign(velX) == -1){
