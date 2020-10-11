@@ -113,22 +113,24 @@ function create ()
     repeat: -1
   });
 
-  for (i = 0; i < color_layers.length; i++) {
-    this.physics.add.collider(player, color_layers[i]);
-    this.physics.add.collider(enemy, color_layers[i]);
-  }
   this.anims.create({
     key: 'back',
     frames: [ { key: 'dude', frame: 9 } ],
     frameRate: 20
   });
 
+  for (i = 0; i < color_layers.length; i++) {
+    this.physics.add.collider(player, color_layers[i]);
+    for (x = 0; x < enemyList.length; x++)
+    {
+      this.physics.add.collider(enemyList[x], color_layers[i]);
+    }
+  }
 
-  this.physics.add.collider(player, platforms);
   this.physics.add.overlap(player, hazards, playerDeath, null, this);
+
   for (i = 0; i < enemyList.length; i++)
   {
-    this.physics.add.collider(enemyList[i], platforms);
     this.physics.add.overlap(player, enemyList[i], playerDeath, null, this);
   }
 
